@@ -126,11 +126,32 @@ impl Compressor {
         }
         encode
     }
+
+    pub fn decompress_bits(&mut self, bits: &str) -> String {
+        let mut decode = String::new();
+        let mut curr_idx = self.root;
+        for bit in bits.chars() {
+            if bit == '0' {
+                curr_idx = self.nodes[curr_idx].left;
+            } else {
+                curr_idx = self.nodes[curr_idx].right;
+            }
+            if self.nodes[curr_idx].left == NULL_PTR {
+                decode.push(self.nodes[curr_idx].char);
+                curr_idx = self.root;
+            }
+        }
+        decode
+    }
 }
 
 fn main() {
     let text = fs::read_to_string(r".\src\input.txt").unwrap();
     let mut compressor = Compressor::new();
     let compressed_bits = compressor.compress_text(&text);
+    let decompressd_text = compressor.decompress_bits(&compressed_bits);
+    let ratio = compressed_bits.len() as f64 / (text.len() as f64 * 8.0);
     println!("{}", compressed_bits);
+    println!("{}", decompressd_text);
+    println!("Successfully compressed bit size by: {:.2}%", ratio * 100.0);
 }

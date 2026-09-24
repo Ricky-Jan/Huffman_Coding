@@ -1,1 +1,9 @@
-Hello world
+Rigid body dynamics is a fundamental aspect of modern physics engines used in game development and simulations. At its core, a physics engine must accurately simulate the motion of solid objects under the influence of various forces, such as gravity, friction, and user-applied impulses. The simulation pipeline typically consists of several distinct phases: force integration, collision detection, and impulse resolution.
+
+During the integration phase, the engine calculates the new positions and velocities of all bodies based on their mass, inertia, and accumulated forces over a discrete time step. However, objects rarely move in isolation. When rigid bodies overlap, the engine must resolve these penetrations to maintain the illusion of solidity.
+
+This brings us to collision detection, which is usually divided into a broad phase and a narrow phase. The broad phase quickly culls pairs of objects that are definitely not colliding, often using spatial partitioning data structures like a Dynamic Bounding Volume Hierarchy (BVH). A BVH tree wraps objects in progressively larger bounding boxes, allowing the engine to efficiently discard non-overlapping branches. 
+
+Once potential collision pairs are identified, the narrow phase employs precise geometric algorithms to determine the exact points of contact, penetration depth, and collision normals. This information forms a contact manifold. 
+
+Finally, the impulse solver reads these manifolds and applies corrective impulses to the colliding bodies. By iterating through the contact constraints and utilizing warm-starting techniques, the solver ensures that objects bounce, slide, or come to rest realistically without sinking into one another. The beauty of this system lies in the elegant translation of classical mechanics into discrete, computational algorithms.
